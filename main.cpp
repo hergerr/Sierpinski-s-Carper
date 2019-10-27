@@ -14,7 +14,7 @@ void drawSquare(float x, float y, float size)
 {
     glBegin(GL_POLYGON);
 
-    glColor3f(getRand(0, 256) / 255.0f, getRand(0, 256) / 255.0f, getRand(0, 256) / 255.0f);
+    glColor3f(0,0,1);
     glVertex2f(x, y);
     glVertex2f(x + size, y);
     glVertex2f(x + size, y - size);
@@ -40,7 +40,6 @@ void drawBlankSquare(float x, float y, float size)
 
 void drawCarpet(float x, float y, float size, int depth)
 {
-    std::cout << depth << std::endl;
     if (depth == 0)
     {
         return;
@@ -63,10 +62,10 @@ void drawCarpet(float x, float y, float size, int depth)
 
 void renderScene(void)
 {
-    float initial_size = 100;
-    int depth = 3;
+    float initial_size = 1000;
+    int depth = 5;
     glClear(GL_COLOR_BUFFER_BIT);
-    drawCarpet(-50, 50, 100, 3);
+    drawCarpet(-500, 500, initial_size, depth);
 }
 
 void myInit(void)
@@ -86,9 +85,9 @@ void changeSize(GLsizei horizontal, GLsizei vertical)
     aspectRatio = (GLfloat)horizontal / (GLfloat)vertical;
 
     if (horizontal <= vertical)
-        glOrtho(-100.0, 100.0, -100.0 / aspectRatio, 100.0 / aspectRatio, 1.0, -1.0);
+        glOrtho(-1000.0, 1000.0, -1000.0 / aspectRatio, 1000.0 / aspectRatio, 1.0, -1.0);
     else
-        glOrtho(-100.0 * aspectRatio, 100.0 * aspectRatio, -100.0, 100.0, 1.0, -1.0);
+        glOrtho(-1000.0 * aspectRatio, 1000.0 * aspectRatio, -1000.0, 1000.0, 1.0, -1.0);
 
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
