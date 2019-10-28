@@ -12,30 +12,47 @@ int getRand(int a, int b)
 // x, y to wspolrzedne lewego gornego wierzcholka
 void drawSquare(float x, float y, float size)
 {
-    glBegin(GL_POLYGON);
+    glBegin(GL_TRIANGLES);
 
-    glColor3f(0,0,1);
+    glColor3ub(getRand(0, 255), getRand(0, 255), getRand(0, 255));
     glVertex2f(x, y);
+    glColor3ub(getRand(0, 255), getRand(0, 255), getRand(0, 255));
     glVertex2f(x + size, y);
+    glColor3ub(getRand(0, 255), getRand(0, 255), getRand(0, 255));
     glVertex2f(x + size, y - size);
-    glVertex2f(x, y - size);
+
     glEnd();
 
-    glFlush();
+    glBegin(GL_TRIANGLES);
+
+    glColor3ub(getRand(0, 255), getRand(0, 255), getRand(0, 255));
+    glVertex2f(x + size, y - size);
+    glColor3ub(getRand(0, 255), getRand(0, 255), getRand(0, 255));
+    glVertex2f(x, y - size);
+    glColor3ub(getRand(0, 255), getRand(0, 255), getRand(0, 255));
+    glVertex2f(x, y);
+
+    glEnd();
 }
 
 void drawBlankSquare(float x, float y, float size)
 {
-    glBegin(GL_POLYGON);
+    glBegin(GL_TRIANGLES);
     glColor3f(0.5f, 0.5f, 0.5f);
 
     glVertex2f(x, y);
     glVertex2f(x + size, y);
     glVertex2f(x + size, y - size);
-    glVertex2f(x, y - size);
+
     glEnd();
 
-    glFlush();
+    glBegin(GL_TRIANGLES);
+
+    glVertex2f(x + size, y - size);
+    glVertex2f(x, y - size);
+    glVertex2f(x, y);
+
+    glEnd();
 }
 
 void drawCarpet(float x, float y, float size, int depth)
@@ -51,10 +68,11 @@ void drawCarpet(float x, float y, float size, int depth)
         for (int j = 0; j < 3; ++j)
         {
             if (i == 1 && j == 1)
-                drawBlankSquare(x + j * (size / 3.0f), y, size / 3.0f);
-            else{
-                drawSquare(x + j * (size / 3.0f), y, size / 3.0f);
-                drawCarpet(x + j * (size / 3.0f), y, size / 3.0f, depth-1);
+                drawBlankSquare(x + j * (size / 3.0f), y, size / 3.0f + getRand(-5, 5));
+            else
+            {
+                drawSquare(x + j * (size / 3.0f), y, size / 3.0f + getRand(-5, 5));
+                drawCarpet(x + j * (size / 3.0f), y, size / 3.0f, depth - 1);
             }
         }
     }
@@ -62,10 +80,11 @@ void drawCarpet(float x, float y, float size, int depth)
 
 void renderScene(void)
 {
-    float initial_size = 1000;
+    float initial_size = 100;
     int depth = 5;
     glClear(GL_COLOR_BUFFER_BIT);
-    drawCarpet(-500, 500, initial_size, depth);
+    drawCarpet(-50, 50, initial_size, depth);
+    glFlush();
 }
 
 void myInit(void)
@@ -85,9 +104,9 @@ void changeSize(GLsizei horizontal, GLsizei vertical)
     aspectRatio = (GLfloat)horizontal / (GLfloat)vertical;
 
     if (horizontal <= vertical)
-        glOrtho(-1000.0, 1000.0, -1000.0 / aspectRatio, 1000.0 / aspectRatio, 1.0, -1.0);
+        glOrtho(-100.0, 100.0, -100.0 / aspectRatio, 100.0 / aspectRatio, 1.0, -1.0);
     else
-        glOrtho(-1000.0 * aspectRatio, 1000.0 * aspectRatio, -1000.0, 1000.0, 1.0, -1.0);
+        glOrtho(-100.0 * aspectRatio, 100.0 * aspectRatio, -100.0, 100.0, 1.0, -1.0);
 
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
